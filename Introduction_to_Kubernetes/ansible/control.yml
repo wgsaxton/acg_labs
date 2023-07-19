@@ -1,0 +1,51 @@
+- hosts: controllers
+  become: true
+  tasks:
+    - name: initialize the cluster
+      # become: yes
+      # become_user: kube
+      shell: kubeadm init --pod-network-cidr=192.168.0.0/16 --kubernetes-version 1.24.0 > cluster_initialized.txt
+      # not sure if using register here will work. Finding a way to create the creates file
+      # options:
+      # 1. using register
+      # 2. redirecting output (this seems to be most popular)
+      args:
+        chdir: $HOME
+        creates: cluster_initialized.txt
+
+    - name: create .kube directory
+      # become: yes
+      # become_user: kube
+      file:
+        path: $HOME/.kube
+        state: directory
+        mode: 0755
+
+    - name: copies admin.conf to user's kube config
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: $HOME/.kube/config
+        remote_src: yes
+        owner: ubuntu
+
+    - name: install Pod network
+      # become: yes
+      # become_user: kube
+      shell: kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
+      args:
+        chdir: $HOME
+        
+    - name: Get the token for joining the worker nodes
+      # become: yes
+      # become_user: kube
+      shell: kubeadm token create --print-join-command
+      register: kubernetes_join_command
+
+    - name: Print join command
+      debug:
+        msg: "{{ kubernetes_join_command.stdout }}"
+        # msg: "{{ kubernetes_join_command.stdout_lines[0] }}"
+
+    - name: Copy join command to local file.
+      become: false
+      local_action: copy content="{{ kubernetes_join_command.stdout_lines[0] }}" dest=/tmp/kubernetes_join_command mode=0777
