@@ -51,8 +51,16 @@ First test connectivity with
 `ansible -i hosts all -m ping`
 
 ```
-ansible-playbook -i hosts users.yml
-ansible-playbook -i hosts install-k8s.yml
-ansible-playbook -i hosts control.yml
-ansible-playbook -i hosts join-workers.yml
+ansible-playbook -i hosts main_playbook.yml
 ```
+
+# Notes
+Sites I used. Mainly the webpages I thought I might not find again.
+
+[How To Install A Private Docker Container Registry In Kubernetes](https://www.paulsblog.dev/how-to-install-a-private-docker-container-registry-in-kubernetes/)
+
+[Deploy a Kubernetes Cluster using Ansible - buildVirtual](https://buildvirtual.net/deploy-a-kubernetes-cluster-using-ansible/)
+
+[Building Kubernetes cluster on AWS cloud using Terraform and Ansible | SloopStash Blog](https://sloopstash.com/blog/building-kubernetes-cluster-on-aws-cloud-using-terraform-and-ansible.html)
+
+[Sample Ansible setup — Ansible Documentation](https://docs.ansible.com/ansible/latest/tips_tricks/sample_setup.html)

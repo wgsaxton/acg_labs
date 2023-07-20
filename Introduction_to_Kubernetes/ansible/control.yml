@@ -14,6 +14,7 @@
         state: directory
         mode: 0755
 
+    # done this way to be able to read the file
     - name: copies admin.conf to user's kube config
       become_user: root
       copy:
@@ -23,6 +24,7 @@
         owner: ubuntu
         group: ubuntu
 
+    # ran without sudo since the config file is in the ubuntu user's home directory
     - name: install Pod network
       shell: kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
 
