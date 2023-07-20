@@ -7,29 +7,29 @@
   # connection: ssh
 
   tasks:
-    - name: Add conf for containerd
+    - name: Config modprobe
       blockinfile:
         path: "/etc/modules-load.d/containerd.conf"
         create: true
         block: |
-              overlay
-              br_netfilter
+          overlay
+          br_netfilter
 
-    - name: modprobe
+    - name: Enable modprobe
       command: |
-            modprobe overlay
-            modprobe br_netfilter
+        modprobe overlay
+        modprobe br_netfilter
 
-    - name: Add conf for containerd
+    - name: sysctl params required by setup, params persist across reboots
       blockinfile:
         path: "/etc/sysctl.d/99-kubernetes-cri.conf"
         create: true
         block: |
-               net.bridge.bridge-nf-call-iptables = 1
-               net.ipv4.ip_forward = 1
-               net.bridge.bridge-nf-call-ip6tables = 1
- 
-    - name: Apply new containerd settings
+          net.bridge.bridge-nf-call-iptables = 1
+          net.ipv4.ip_forward = 1
+          net.bridge.bridge-nf-call-ip6tables = 1
+
+    - name: Apply sysctl params without reboot
       command: sysctl --system
 
     - name: Set up the Docker Engine repository
@@ -48,17 +48,17 @@
 
     - name: Set up the Docker repository
       shell: |
-             echo \
-             "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-             $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        echo \
+        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+        $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
     - name: Update the apt package index
       command: apt-get update
 
     - name: Install Docker Engine, containerd, and Docker Compose
       shell: |
-             VERSION_STRING=5:23.0.1-1~ubuntu.20.04~focal
-             apt-get install -y docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin docker-compose-plugin
+        VERSION_STRING=5:23.0.1-1~ubuntu.20.04~focal
+        apt-get install -y docker-ce=$VERSION_STRING docker-ce-cli=$VERSION_STRING containerd.io docker-buildx-plugin docker-compose-plugin
 
     - name: Add your user (ubuntu) to the docker group
       command: usermod -aG docker $USER
@@ -80,10 +80,10 @@
         path: "/etc/apt/sources.list.d/kubernetes.list"
         create: true
         block: |
-              deb https://apt.kubernetes.io/ kubernetes-xenial main
-    
+          deb https://apt.kubernetes.io/ kubernetes-xenial main
+
     - name: install kubernetes
       shell: |
-              apt-get update
-              apt-get install -y kubelet=1.24.0-00 kubeadm=1.24.0-00 kubectl=1.24.0-00
-              apt-mark hold kubelet kubeadm kubectl
+        apt-get update
+        apt-get install -y kubelet=1.24.0-00 kubeadm=1.24.0-00 kubectl=1.24.0-00
+        apt-mark hold kubelet kubeadm kubectl
