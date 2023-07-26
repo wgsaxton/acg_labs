@@ -1,0 +1,20 @@
+- hosts: "controllers"
+  remote_user: ubuntu
+  become: true
+  become_user: ubuntu
+
+  tasks:
+    - name: Add istio path to .bashrc
+      lineinfile:
+        path: /home/ubuntu/.bashrc
+        regex: '^export PATH='
+        line: export PATH=/home/ubuntu/istio-1.18.1/bin:$PATH
+    
+    - name: Download and unpack Istio
+      shell: |
+        wget https://github.com/istio/istio/releases/download/1.18.1/istio-1.18.1-linux-amd64.tar.gz
+        tar -xvf istio-1.18.1-linux-amd64.tar.gz
+        echo "istio installed" > istio_added.txt
+      args:
+        chdir: $HOME
+        creates: istio_added.txt

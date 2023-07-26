@@ -21,13 +21,11 @@ export TF_VAR_aws_access_key="YOUR_ACCESS_KEY"
 export TF_VAR_aws_secret_key="YOUR SECRET KEY"
 ```
 
-This is the AWS CLI way. Don't do it. example:
-
+These env vars really relate to the AWS CLI, but terraform picks them up. So the env vars reference is [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html).
 ```
 export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY"
 export AWS_SECRET_ACCESS_KEY="YOUR SECRET KEY"
 ```
-These env vars really relate to the AWS CLI, but terraform picks them up. So the env vars reference is [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html).
 
 ## SSH to instances
 if using ACG playgroud, the username is `cloud_user` or whatever the username is to log into the sandbox's console.
@@ -51,7 +49,7 @@ First test connectivity with
 `ansible -i hosts all -m ping`
 
 ```
-ansible-playbook -i hosts main_playbook.yml
+ansible-playbook -i hosts playbooks/kubernetes/main_playbook.yml
 ```
 
 # Notes

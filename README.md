@@ -6,3 +6,6 @@ This repo is to track where doing ACG labs this will probably be done in terrafo
 
 1) A folder for each course
 2) Within the course folder a folder for each lab
+3) The course folders are all work that I do
+4) The `instructorrepos_submods` is where instructor repos I clone go.
+    a) The are added as submodules `git submodule add [URL]`
