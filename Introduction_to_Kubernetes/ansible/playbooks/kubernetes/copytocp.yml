@@ -1,9 +1,0 @@
-# Copy the code/repos to the CP node to run on the cluseter
-- hosts: controllers
-  become: true
-  become_user: ubuntu
-  tasks:
-    - name: Copy git repos to the control plane node
-      copy:
-        mode: preserve
-        
