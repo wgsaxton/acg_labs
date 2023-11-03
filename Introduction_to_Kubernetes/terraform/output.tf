@@ -3,5 +3,5 @@ output "servers_output" {
 }
 
 output "msg1" {
-  value = "to list out and add as env vars\n terraform output -json servers_output | jq -r '.[0,1,2]'"
+  value = "to list out and add as env vars\n terraform output -json servers_output | jq -r '.[0,1,2,3]'"
 }

@@ -8,7 +8,12 @@ variable "aws_secret_key" {
   sensitive = true
 }
 
+variable "aws_ssh_pub_key" {
+  type      = string
+  sensitive = true
+}
+
 variable "k8s_servers" {
   type    = set(string)
-  default = ["control1", "worker1", "worker2"]
+  default = ["control1", "worker1", "worker2", "worker3"]
 }

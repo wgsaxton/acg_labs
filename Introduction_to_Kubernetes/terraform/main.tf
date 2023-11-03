@@ -64,7 +64,7 @@ resource "aws_route_table_association" "k8s_rta" {
 
 resource "aws_key_pair" "ssh_key" {
   key_name   = "ssh_key"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCrP1PhlPz+rzC1GBYhVTczaiDSQOjHYkm1u6Os/NjSvH/O08HDpltt0bZkzHLUnw2Tus4G7jEgaOCXFKdXeaoxu8Mu4NcCC8PAvryq0uzsQ/SqBn8v7JMfk9QNjcUzOAwjfOYcHrwpqNHoIPMgXShXHlHkD+SfJm7SwEggpQUOmsjuKR7q7TYfwD1LiK3re0tjZgnyYaaU6ruXI+iCoPAuv5ovFOCABMJ30PIlNZXyCxlRE+ejKt1a3xeQAgT6Dv6HCSuff9taVzyMxOItT3g7t16aDjllK4bZ+v4uJH5ERQkE2zPbM6efl/jrMr/jOWltyjSkNpJuGHW8/lgaiqTUtJysjel1+FwwdIdU3w3s6vlmixVPPrEdzEw4zf2UhwmY10vAxQKOzRb7GcZfCQtY1T7MqgYJ3TAtfpim+ZSzZfjrar3RupHglICR3g4spcRgGVUaxunPSMe22lxz65faM+WaIQ4nhXt4ZpvoixLQpe9WatHPcKfID27siBH1a/2rYCzSMAGRyKZ9ZDLYwKdv1S2dzom4JfhkPnDdt/YCVRHWkm3ErIRZSKhXspahBWbXrEqTl3QWkXbiMLCAO6cHWgusH5l/5ZEM/0DIv8rTjyhhX4/z9m0YqwA8aXsh9pnj2shmxr/LmRkz+TiGcbzd40OmQjjmzBTPbh/BUfC6Gw== garrett.saxton@gsaxton-ltm.internal.salesforce.com"
+  public_key = var.aws_ssh_pub_key
 }
 
 resource "aws_security_group" "k8s_sg" {
