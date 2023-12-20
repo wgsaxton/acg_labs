@@ -34,6 +34,10 @@ Example:
 ```
 % ssh -i id_rsa ubuntu@3.88.16.48
 ```
+If you put the env vars in after running terraform you can do
+```
+ssh -i ~/.ssh/id_rsa ubuntu@$control1
+``` 
 
 # Ansible Startup
 

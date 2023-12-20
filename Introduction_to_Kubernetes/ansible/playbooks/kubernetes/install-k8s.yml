@@ -32,8 +32,11 @@
     - name: Apply sysctl params without reboot
       command: sysctl --system
 
+    - name: Update the apt package index
+      command: apt-get update
+    
     - name: Set up the Docker Engine repository
-      shell: apt-get update && sudo apt-get install -y ca-certificates curl gnupg lsb-release apt-transport-https
+      shell: sudo apt-get install -y ca-certificates curl gnupg lsb-release apt-transport-https
 
     - name: Add Docker's official GPG key directory
       file:
@@ -51,9 +54,6 @@
         echo \
         "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
         $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-    - name: Update the apt package index
-      command: apt-get update
 
     - name: Install Docker Engine, containerd, and Docker Compose
       shell: |
@@ -82,8 +82,16 @@
         block: |
           deb https://apt.kubernetes.io/ kubernetes-xenial main
 
-    - name: install kubernetes
+    - name: Install Kubernetes
       shell: |
         apt-get update
         apt-get install -y kubelet=1.24.0-00 kubeadm=1.24.0-00 kubectl=1.24.0-00
         apt-mark hold kubelet kubeadm kubectl
+
+    - name: Install bash completion
+      shell: sudo apt-get install -y bash-completion
+
+    - name: Enable kubectl bash completion
+      blockinfile:
+        path: "/home/ubuntu/.bashrc"
+        block: source <(kubectl completion bash)
